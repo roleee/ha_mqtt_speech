@@ -14,9 +14,21 @@ ha_mqtt_speech:
       platform: # Szolgáltatás első része, amit hívunk egyezés esetén
       service:  # Szolgáltatás második része, amit hívunk egyezés esetén
       service_data: # Entitás
+	  answer_topic: # MQTT-topik, ahova küld egy üzenetet, ha végzett az utasítással
+	  answer: # MQTT-üzenet, amit felolvas az Automate
 </pre> 
+
+Konkrét példa található a py-fájl elején.
 
 Ha a nick "Alexandra" és a beállított szavak: "bejárat" és "kapcsold fel", akkor bármilyen sorrendben kombinálhatóak az utasítás végrehajtásához:
 - Alexandra, kérlek kapcsold fel a bejáratnál a világítást, mert nem látok semmit, olyan sötét van!
 - Kapcsold fel a lámpát a bejárat előtt Alexandra, kérlek szépen!
 - stb.
+
+Hibakereséshez praktikus a configuration.yaml-ba:
+<pre>
+logger:
+  default: warning
+  logs:
+    custom_components: info
+</pre>
