@@ -1,11 +1,14 @@
 # HA custom component magyar hangvezérléshez
 
-Szükséges appok:
-https://play.google.com/store/apps/details?id=com.llamalab.automate
-https://play.google.com/store/apps/details?id=in.dc297.mqttclpro
-https://play.google.com/store/apps/details?id=com.google.android.tts
+Android appok:
 
-Automate android app beállítása a screenshotok alapján.
+Automate: https://play.google.com/store/apps/details?id=com.llamalab.automate
+
+MQTT Client: https://play.google.com/store/apps/details?id=in.dc297.mqttclpro
+
+Google szövegfelolvasó: https://play.google.com/store/apps/details?id=com.google.android.tts
+
+Automate beállítása a screenshotok alapján.
 A ha_mqtt_speech.py fájlt a HA-n belül a custom_components mappában kell elhelyezni.
 
 configuration.yaml:
