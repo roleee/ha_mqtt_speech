@@ -9,6 +9,8 @@
 #      platform: switch
 #      service: turn_on
 #      service_data: {"entity_id": "switch.bejarat_vilagitas"}
+#      answer_topic: xiaomi/speak
+#      answer: A bejárat előtt felkapcsoltam a világítást.
 #    - name: entrance-light-up-2
 #      words:
 #        - bejárat
@@ -16,6 +18,8 @@
 #      platform: switch
 #      service: turn_on
 #      service_data: {"entity_id": "switch.bejarat_vilagitas"}
+#      answer_topic: xiaomi/speak
+#      answer: A bejárat előtt felkapcsoltam a világítást.
 #    - name: entrance-light-down
 #      words:
 #        - bejárat
@@ -23,6 +27,8 @@
 #      platform: switch
 #      service: turn_off
 #      service_data: {"entity_id": "switch.bejarat_vilagitas"}
+#      answer_topic: xiaomi/speak
+#      answer: A bejárat előtt lekapcsoltam a világítást.
 
 import logging
 import homeassistant.loader as loader
@@ -37,7 +43,7 @@ LOGGER = logging.getLogger(__name__)
 CONF_TOPIC = 'topic'
 CONF_RULES = 'rules'
 CONF_NICKNAME = 'nickname'
-DEFAULT_TOPIC = 'home-assistant/hello_mqtt'
+DEFAULT_TOPIC = 'xSpeech'
 DEFAULT_NICKNAME = ''
 
 def setup(hass, config):
@@ -72,11 +78,16 @@ def setup(hass, config):
                     ok = False
             
             if ok:
-                LOGGER.info(DOMAIN + ' rule ok: ' + rule['name'])
+                LOGGER.info(DOMAIN + ' rule matched: ' + rule['name'])
+                if rule['answer_topic'] is not None and len(rule['answer_topic']) > 0 and rule['answer'] is not None and len(rule['answer']) > 0:
+                    LOGGER.info(DOMAIN + ' answer_topic: ' + rule['answer_topic'] + ', answer: ' + rule['answer'])
+                    mqtt.publish(rule['answer_topic'], rule['answer'])
+                else:
+                    LOGGER.info(DOMAIN + ' answer_topic: ' + rule['answer_topic'] + ', answer: ' + rule['answer'] + '!')
                 hass.services.call(rule['platform'], rule['service'], rule['service_data'], False)
                 break
             else:
-                LOGGER.info(DOMAIN + ' rule not ok: ' + rule['name'])
+                LOGGER.info(DOMAIN + ' rule not matched: ' + rule['name'])
 
     # Subscribe our listener to a topic.
     mqtt.subscribe(topic, message_received)
